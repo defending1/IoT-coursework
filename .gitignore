@@ -9,3 +9,7 @@
 *.toc
 *.synctex(busy)
 *.run.xml
+*.bbl                                                                                                                                              
+*.bcf                                                                                                                                              
+*.blg                                                                                                                                              
+*.synctex.gz                                                                                                                                       
