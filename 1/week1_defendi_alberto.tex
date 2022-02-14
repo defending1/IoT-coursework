@@ -1,0 +1,240 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}                
+\setlength{\parindent}{6mm}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1.5in]{geometry}    % For margin alignment
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{pdfpages}
+\usepackage{arevmath}     % For math symbols
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{Alberto Defendi}
+\fancyhead[RE,LO]{IoT: week 1 solutions}
+\fancyfoot[LE,RO]{\thepage}
+
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{source.bib}
+
+
+\title{Problem solutions 1}
+\author{Alberto Defendi - alberto.defendi@helsinki.fi}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{} % (fold)
+\label{sec:}
+\subsection{} % (fold)
+\label{sub:}
+
+\begin{description}
+	\item[Adressability] the car has a unique vehicle identification number (VIN)
+	\item[Connectivity] the device has to be wired to exchange data with the
+		external world, for now it's not an IoT. This could be extended by
+		adding a radio module, or by using the connectivity from the user
+		smartphone. 
+	\item[Sensing] the car is equipped with many sensors and different knowledge
+		can be extracted from those.
+    \item[Programmability] having a computer on board can makes possible to use
+		a programming language to automate task and deliver information to the
+		passenger on the cockpit and to notify for the insurgence of problems. 
+	\item[Future] The car could be turned into IoT by connecting it with a
+		server and providing knowledge to a smartphone app, but this depends
+		upon if the car was designed to be extended and if the manufacturer
+		provides the extension modules to the customer, otherwise DIY solutions
+		provide many communications. 
+	\item[Privacy] an hacker could access the location of the car, causing
+		serious repercussions on the car and person safety. Fake
+		errors can be generated, or someone could re-calibrate the car and alter 
+		the data values to generate fake alerts and fake evaluations. 
+		It would be possible to develop an interface between the car and the
+		smartphone to view the current location and unlock it from the
+		smartphone, in this case the access should be protected with strong
+		access control, to avoid someone to steal the car.  
+\end{description}
+
+% subsection  (end)
+
+\subsection{} % (fold)
+\label{sub:}
+\begin{description}
+    \item[Addressability] the fridge has an unique factory number, also the mac
+		address/serial number of the computer could be used
+	\item[Connectivity] the fridge should be placed in a part of the house with
+		good WiFi connection or an Ethernet cable to work. A fast connection may
+		be required if the camera resolution is high. 
+	\item[Programmability] since it has a touchscreen, the computer should have
+		a mobile operative system (e.g.. android) and support the most common
+		high level programming languages.
+	\item[Sensing] the camera can check if the fridge is empty (and if infrared,
+		control the temperature of points in the fridge). The microphone/tablet
+		are good interfaces to the user.
+	\item[Future]
+		The manufacturer
+		could add temperature, humidity sensors to inform about the state of
+		the fridge,
+a gas sensor (for smell detection), an ice sensor (says if the
+		ice is ready), an IR sensor (eggs detection). But new models shall be
+		released if the manufacturer didn't predisposed extensible modules.
+		\href{https://www.ijariit.com/manuscripts/v3i1/V3I1-1375.pdf}{Reference:}
+	\item[Privacy] an hacker could take control trough the OS of the microphone/camera
+		to spy John's private life, and
+		the data of the products in the fridge could be sold to target John's
+		preferences without his consent. The fridge tablet could be equipped with an app store,
+		where could be possible to download video-conferencing tools, so that
+		John could talk with someone from the fridge. Here there could be
+		fraudulent apps that spied John camera/microphone.
+\end{description}
+
+% subsection  (end)
+
+% section  (end)
+
+\section{Smart Traffic} % (fold)
+\label{sec:smart_traffic}
+\subsection{Usage} % (fold)
+\label{sub:usage}
+The reality that I chose is related to my observation of the public transport
+service in the metropolitan area of Helsinki. The methodology I used is trying
+to reverse engineering the transport network to understand the mechanism, since
+the documentation is not available. This research will focus
+on the bus vehicles in the service zones (ABCD), while other vehicles are
+behind our scope. 
+We use \cite{6714496} and
+\cite{8320780} as sample.
+HSL offers a route planner that is accessible trough the website
+\href{https://reittiopas.hsl.fi/etusivu}{Journey planner} and which uses data
+from OpenStreetMap for the maps and data from their vehicles (bus, ferries,
+trains) to feed a Journey planner (build upon OpenTripPlanner) to compute the
+arrival time of the next vehicle, and offer a prediction of the best route to 
+the passenger. 
+
+% subsection usage (end)
+
+\subsection{Benefits} % (fold)
+\label{sub:benefits}
+In pre-IoT times, the routes timetable was communicated trough the website or
+with a schedule printed in the bus stop. However, this model is not flexible
+enough in situations of traffic or when there are disruptions of services.\\
+The advantages of this IoT network, enables the commuter to find faster routes
+easily with the aid of the knowledge base extracted from the sensors' data. 
+Having a journey planner makes easier to find the fastest path to reach a destination,
+while suggesting alternative routes in case of disruption of services or when
+using multiple routes is required to reach a destination. 
+The interface to the service happens trough the use of a website or a mobile
+app, where is also possible to purchase tickets for the public transport. 
+
+% subsection benefits (end)
+
+\subsection{Architecture} % (fold)
+\label{sub:architecture}
+The architectural components are:
+\begin{itemize}
+    \item bus receiver 
+	\item stop transmitter
+	\item on-board computer (gateway)
+\end{itemize}
+From my deductions, the implementation doesn't use the GPS for establishing the
+position of the bus, which can
+have connection problems in places where the signal is obstructed by
+objects, such as tall buildings in the city center and also could require more
+architectural complexity.\\
+Instead, every route has different points (real bus stops), and a signal is
+triggered when the bus passes at every point $S_{n}$, where $n$ is the number of
+stops in a route. The bus keeps track of the time spent to reach point
+$S_{i+1}$ from point $S_{i}$, and stores the time to adjust the prediction
+algorithm, which we will not analyze, but supposing that it's Ford-Fulkerson or
+Dijkstra's, it could be based on a weighted graph, where the weights is the time
+needed to reach every stop.
+
+% subsection architecture (end)
+
+
+These are the three smart objects under analysis. We use:
+\begin{description}
+	\item[Bus state transmitter], which is located in the top part of the bus 
+		and is equipped with a small receiver that listens to the nearby stop.
+		\begin{description}
+			\item[The function is] listening to nearby stops to detect when the
+				bus has reached a stop, and send it to the gateway 
+				(the driver computer), to update the current position of 
+				the bus. 
+			\item[The control unit] is similar to the one used in bus stops (a
+				small low-power sensor controller) with the
+				difference that this is powered by the bus engine and constantly
+				exchanges data with the on-board PC.
+			\item[Power source] Bus current.
+		\end{description}
+    \item[Bus stop]
+		\begin{description}
+		    \item[Function] Bus stops in Helsinki have a small data sender which is
+		usually attached to the stop sign. It is equipped with a small antenna
+		that sends its stop code in broadcast in the nearby area of 10mt, so that 
+		the bus can listen to the nearby signal and detect when it has reached
+		a certain stop. 
+			\item[The power source] of this device requires to be always on, so it 
+			takes the power from a battery and from solar power when possible.
+			The device requires little power, so the battery has to be changed in
+			a yearly basis. When the battery is out of energy, a signal is
+			sent to the bus and then forwarded to the server. The battery
+			should operate between -10°c and 40°c, and resist temperatures until
+			-30 in exceptional situations.
+			\item[The control unit] is a simple micro-controller because it has
+				the simple function of sending the same data. It has also the
+				be cheap and be contained in a safe cover to preserve itself
+				from the external agents (e.g weather, vandalism).
+		\end{description}
+	\item[The on-board computer] is embedded in the bus, and is managed by the
+		driver. It has two important functional aspects:
+		\begin{itemize}
+			\item Acts as a gateway between the sensors on the bus and the data
+				from the sensors, such as the stop antenna and the passengers'
+				card reader.
+		    \item Keeps a log of the current driver and route. 
+		\end{itemize}
+		Usually the driver logs-in with her credentials before to start the turn
+		and indicates the route number before to start the route. The data is
+		constantly interchanged between the computer and the HSL servers.
+		\begin{description}
+			\item[Connection] Since HSL operates in the Helsinki metropolitan area, hence not only in
+		zone A and B where the public WI-FI could be used, but also in zones C
+		and D, where the population density is lower, the most reliable
+		connection would be mobile internet, which is covered 
+		    \item[The control unit] is a fully-functional low-power, low-energy 
+				computer. It has to have enough computational power to handle
+				the keyboard input and enable the real-time transmission of
+				data with the company servers. 
+			\item[The power source] is the bus engine, so there are not energy
+				constraints.
+		\end{description}
+\end{description}
+
+% section smart_traffic (end)
+
+
+\medskip
+
+\printbibliography
+
+
+\doclicenseThis
+
+\end{document}

@@ -1,0 +1,87 @@
+%% Creator: Inkscape 1.1 (c4e8f9e, 2021-05-24), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'image.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{367.875bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.67380224)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{image.pdf}}%
+    \put(0.42507645,1.54332314){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Cloud\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{image.pdf}}%
+    \put(0.46992864,0.86646279){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Real time constrained tasks:...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{image.pdf}}%
+    \put(0.55351682,1.54332314){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Driving analysis:...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{image.pdf}}%
+    \put(0.34352701,0.76452599){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Car\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{image.pdf}}%
+    \put(0.22324159,1.19673802){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Analysed/Cleaned/Unstructured data\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{image.pdf}}%
+    \put(0.25382263,0.08562691){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Temperat...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{image.pdf}}%
+    \put(0.40061162,0.07543323){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Tires\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{image.pdf}}%
+    \put(0.54332314,0.07543323){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Speed\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{image.pdf}}%
+    \put(0.69826707,0.07543323){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Light\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{image.pdf}}%
+    \put(0.83282365,0.07543323){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Wheel\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{image.pdf}}%
+    \put(0.06014271,0.16309888){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Sensing\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{image.pdf}}%
+    \put(0.71865443,1.19673802){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Knowledge\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{image.pdf}}%
+    \put(0.07033639,0.87054027){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Gateway\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{image.pdf}}%
+    \put(0.67380224,0.50356779){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Calibrates\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{image.pdf}}%
+    \put(0.37410805,0.50356779){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Data\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

@@ -1,0 +1,297 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}                
+\setlength{\parindent}{6mm}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1.5in]{geometry}    % For margin alignment
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{pdfpages}
+\usepackage{arevmath}     % For math symbols
+\usepackage{exercises}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{source.bib}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{Alberto Defendi}
+\fancyhead[RE,LO]{IoT: week 2 solutions}
+\fancyfoot[LE,RO]{\thepage}
+
+\title{Problem solutions 2}
+\author{Alberto Defendi - alberto.defendi@helsinki.fi}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Solutions} % (fold)
+\label{sec:solutions}
+\begin{exercise}
+We consider the analysis of a self-driving car of autonomy level-1, where the
+driver is assisted with an assistance system for steering or
+acceleration/deceleration \cite{car_levels_international_2014}.
+\begin{enumerate}
+    \item 
+		\begin{description}
+		    \item[Event based] Level-1 requires intervention if the 
+				autonomous system fails to respond properly, so
+				it must be possible to take control of the driving process by
+				acting on the speed level if the system fails to adjust the car
+				to a suggested speed. This is a sensible aspect of the system,
+				since in a possible failure, the car could reach speeds that may 
+				make it difficult to control, or may break the law.\\
+				Reading data from the sensors and evaluate car's condition can
+				be done using event-based, since it would increase the accuracy
+				of the measurements' timing.
+			\item[Thread-based] Check of data from GPS, street maps and police
+				database should run
+				asynchronously without the intervention of the pilot, because
+				the system may consult internet or access the main memory to
+				check the data, which can be a slow operation.
+		\end{description}
+	\item Preemptive scheduling, because we can have 
+		processes of higher priority, 
+		like the action of the pilot on the level, that would
+		switch from the assisted driving thread, to the manual. This would
+		require a more complex scheduler, but this is balanced by the fact that 
+		the car is equipped with a powerful computer that is also used for
+		infotainment.
+	\item In this car we can have a on-board computer that acts a
+		a gateway, manages infotainment and does computation from sensor's
+		data, and multiple low-end devices that collect data from sensors and do
+		small computations to check if the measurements are in the normal range.
+		The computational power of this device may be similar to a high-range
+		ARM-based tablet that is power-efficient in fall 2021.
+		The gateway OS should be: 
+		\begin{itemize}
+		    \item Multi-threading.
+			\item Offer a GUI compatibility.
+			\item Support drivers for interacting with internal peripherals 
+				(e.g touchscreen) interacting with external peripherals (low-end
+				devices) and radio/WiFi connectivity.
+			\item Security features to avoid the auto to get hacked.
+			\item A suitable OS could be Android.
+			\item Dynamic memory, since there can be many application. The
+				fragmentation is not problematic, since the main memory is a
+				fast flash memory. 
+		\end{itemize}
+		The self-driving module OS should support: 
+		\begin{itemize}
+			\item Real time constraint (see next point).
+			\item Events. 
+		\end{itemize}
+	\item 
+		\begin{description}
+		    \item[Hard] If the driver cannot take control of the car, it results
+				in a system failure and the car should stop gracefully, without
+				becoming dangerous for other street users. Also if the sensors
+				that collect data from the car devices fail, 
+			\item[Firm] If the autonomous system fails to collect speed data to
+				assist the speed change, the driver should be informed and the
+				system should become fully manual. 
+			\item[Soft] A possible soft constraint in the car, but not related
+				to the driving experience, can be the live audio streaming of
+				the infotainment, which down-samples to a lower bit-rate if there
+				is low signal or if the system is at computational capacity
+				level. 
+		\end{description}
+	\item 
+		\begin{description}
+		    \item[Always on] The car has the advantage of having a discrete
+				amount of energy autonomy, which can be used to power computers.
+			Elements that are involved in the car driving must always be kept
+			on to avoid incidents. Also the car condition sensors should
+			continuously monitor possible issues. 
+		\item[Core sleep] The devices core can be splitted in high-power and
+			low-power core, the firsts used where the demand of computations is
+			higher, the seconds where is lower.
+			\item[Screen dim] The infotainment screen can be dimmed to reduce
+				energy consumption.
+		\end{description}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+	\subsection{Consumer: Smart body scale} % (fold)
+	\label{sub:consumer_smart_body_scale}
+	\begin{enumerate}[(a)]
+	    \item Weights people body mass and provides data analysis
+			trough a mobile application. This helps the user to keep track of the
+			weekly/monthly average and of any weight change. 
+		\item
+			\begin{description}
+			    \item[Peripherals] The device should support peripherals such
+					as a weight sensor, a LCD, a set of buttons and a WiFi
+					antenna.
+				\item[Connection] The data is visualized trough a display, and is possible to select
+			the current user from a set of buttons on the device. 
+			The device can upload measurements on a centralized trough the WiFi
+			connection, but if this results to be too expensive to produce, the
+			scale can connect to a phone trough Bluetooth and use the phone as a
+			gateway.
+				\item[Deep sleep] The device operation is fully event-driven,
+					since all the operations are executed during the usage of
+					the balance, and when not used, the device goes to deep
+					sleep. An example flow could be: the user selects its
+					profile, steps on the balance and waits until the result,
+					the data is sent to the server and the device goes to sleep.  
+				\item[Non-preemptive] Since the operations can happen
+					sequentially, there is no need to have higher priority
+					processes, as long as the scale firsts measures the person,
+					and then sends the data (which may take longer).
+				\item[Event-based] The scale could wake up when a change on the
+					weight sensor is detected. After that, the data is
+					visualized and sent.
+				\item[Static allocation] The allocation can be static since the
+					data of the program is the measurement of the person, that
+					is later sent and deleted.
+			\end{description}
+		\item Tiny OS would be the best choice in this situation
+			where the scale integrates a low-end device with little power (such
+			as an array of 3/4 AA batteries), little memory and a limited number
+			of actions.
+	\end{enumerate}
+	
+	% subsection consumer_smart_body_scale (end)
+
+\subsection{Enterprise: Room management} % (fold)
+\label{sub:enterprise_room_management}
+\begin{enumerate}[(a)]
+    \item We develop an IoT system to offer a smart monitor to
+		view and track the availability of a room, showing the event calendar
+		and the possibility to reserve a room. A possible application could
+		be adding one of these device outside a classroom at the University of
+		Helsinki, where the daily lecture calendar is replaced manually
+		everyday. The final system, will be integrated with the already existent
+		info-system and will make possible to view the lessons calendar in that room
+		and add the possibility to reserve a room
+		if needed trough an online portal hosted by a gateway. 
+	\item
+		\begin{description}
+		    \item[Peripherals] Should support drivers for epaper display and 
+				an Ethernet connection.
+			\item[Price] The device has to be low-end, since the computations are 
+				minimal and simple. 
+			\item[Low power] The control unit energy requirements can be reduced
+				at minimum, since the operations are infrequent over time (the
+				device syncs only when the gateway (a server) updates the
+				timetable). It would be efficient to have the device in
+				deep-sleep when no events are happening, since if we are using
+				a e-paper display, it can hold static text
+				and images indefinitely without electricity. The on trigger can
+				be done when any signal is received from the gateway from the
+				LAN cable.
+			\item[Memory] Small memory is needed, enough to host the system and
+				to temporarily download the data before printing it on the
+				display. It is important that the program deletes the data, to
+				avoid to run out of memory.
+			\item[Non-preemptive] Since the limited power, some tasks can take
+				long, it is important to give time to each task to finish.
+				This design is easier to implement and requires a simpler
+				mechanism to context-switch.
+			\item[Static allocation] The data size is limited to what can fit on
+				a display, and the system does only the simple task of fetching
+				data. 
+			\item[Security] The device must avoid the connection with unwanted
+				host, because it could be used to breach into the network.
+		\end{description}
+	\item Tiny OS would be perfect, since the device is low-end, receive the
+		power trough the LAN cable and should do only simple operations.
+\end{enumerate}
+
+
+
+% subsection enterprise_room_management (end)
+    
+\end{exercise}
+
+\begin{exercise}
+\subsection{RIOT OS} % (fold)
+\label{sub:RIOT_oS}
+The OS of my choice is RIOT \cite{8320780}, specifically designed for IoT devices and
+lightweight in size, without sacrificing features like multi-threading.
+
+\begin{description}
+    \item[Architecture] Unlike Tiny OS which is monolithic, RIOT implements a
+		micro-kernel design, which supports multi-threading and networking
+		communications. The kernel supports real-time preemptive tickless scheduling, where
+		the scheduler is run only when a thread is unlocked (saving additional
+		power). \\
+		The kernel architecture is adapted from Fire kernel, which provides
+		primary features such as scheduling, process communication and
+		synchronization. 
+	\item[Advantages:]
+		\begin{description}
+		    \item[6LoWPAN] The OS supports 6LoWPAN, which enables 
+				low-power radio communication between multiple devices.
+			\item[Low-memory usage] Thanks to its micro-kernel, the OS has a
+				low impact on the memory usage, using the size of just 1.5KB RAM
+				and 5KB of ROM.  
+			\item[Developer friendly] Implements multi-threading, is effective
+				in memory, in terms of APIs (partial POSIX compliance) and is robust against bugs.
+			\item[POSIX] The partial POSIX compliance makes possible to have an
+				uniform API that is independent of underlying hardware, this
+				makes possible to use RIOT with boards using different types of
+				instruction sets. The documentation says that RIOT supports 100+
+				boards \cite{riot-os_2021}.
+			\item[Micro-kernel] This kernel architecture can help reduce the
+				kernel size in small OSs like RIOT. 
+			\item[Linear time fast execution] As reported by the article, the
+				task execution has an efficiency of $O(1)$.
+			\item[Open source] and relatively small code-base, thanks to the
+				micro-kernel architecture, making it easier to contribute for
+				aspiring OS developers, compared to monolithic OS.  
+		\end{description}
+	\item[Limitations:]
+		\begin{description}
+		    \item[Language support] Due to its tiny size, the OS SDK only
+				supports the languages it was programmed in, which are C and
+				C++. Despite those language being popular nowadays, new appealing
+				alternatives for low-level systems are growing, 
+				such as GO and Rust, which offer low-level access and can be easier
+				to use.
+			\item[POSIX] At the moment of writing, the OS only partially
+				supports POSIX standard API, which can be problematic for some
+				application and may require maintenance problems in future.
+			\item[Micro-kernel] The micro-kernel architecture can have security  
+			\item[No concurrency]
+			\item[No security features]
+			\item[No database]
+			\item[No documentation]
+		\end{description}
+	\item[Applications] RIOT OS is applicable anywhere where low-end devices are
+		used (where the memory, battery and power of devices is a constraint).
+		The OS can be used in real-time applications.
+\end{description}
+
+
+
+% subsection RIOT_oS (end)
+
+\end{exercise}
+
+
+% section solutions (end)
+
+\medskip
+
+\printbibliography
+
+\doclicenseThis
+
+\end{document}

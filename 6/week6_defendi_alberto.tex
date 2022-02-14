@@ -1,0 +1,152 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}                
+\setlength{\parindent}{6mm}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1.5in]{geometry}    % For margin alignment
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{pdfpages}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\usepackage{arevmath}     % For math symbols
+\usepackage{exercises}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{source.bib}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{Alberto Defendi}
+\fancyhead[RE,LO]{IoT: week 6 solutions}
+\fancyfoot[LE,RO]{\thepage}
+
+\title{Problem solutions 6}
+\author{Alberto Defendi - alberto.defendi@helsinki.fi}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Solutions} % (fold)
+\label{sec:solutions}
+\begin{exercise}
+"Jason R. C. Nurse, T., 2020. Strava Storm: Why Everyone Should Check
+Their Smart Gear Security Settings Before Going For A Jog. [online] Scientific
+American. Accessed 9 December 2021.":
+\begin{enumerate}
+    \item An inversion attack was performed. The company 
+		released a public heath-map to show people common paths that the
+		users were doing around the world, and researchers analyzed the data
+		trying to match possible locations of military basis.
+	\item Sensor data layer, by the fact that the data from many users was
+		exposed, and created an easy base for the attackers.
+	\item Enabling the user to opt-out from the data collection, and reduce the
+		range of visibility of other routes to a nearby radius. For military, it
+		should be enforced that no third-party apps are used as fitness
+		monitors. 
+\end{enumerate}
+
+Goodin, D., 2020. When Coffee Makers Are Demanding A Ransom, You Know Iot Is Screwed. [online]
+Ars Technica. Accessed 9 December 2021. Link here
+\begin{enumerate}
+    \item The original firmware was replaced with a custom one, injected as it
+		was a OTA update.
+	\item The target was the firmware level, with goal to change the behavior of the
+		machine, and turn the coffee machine to a cryptocurrencies miner. 
+	\item Using code signing (when updating a firmware), encryption (HTTPS) and
+		authentication (when accessing the machine's Wi-Fi). These may require a
+		more powerful CU than the ESP8266.
+\end{enumerate}
+
+\end{exercise}
+\begin{exercise}
+\begin{enumerate}
+    \item We concatenate identity and occupation and perform the sha256 hashing over the
+string. The result of "Bruce Wayne" + " " + "Businessman" is
+dd36c7c2458f2b6dfd06950561df777f39f8c5b7a6f5c5814cabbba5d5e2960a.
+	\item We perform k-anonymity over the weights and the height of each
+		identity. First sort the array (see notebook), take the interval of
+		three numbers (3-anonymity) so that here only three persons can be
+		identified. 
+		\begin{table}[htpb]
+		    \centering
+		    \caption{3-anonymity}
+		    \label{tab:label}
+		    \begin{tabular}{|c | c|}
+				\hline
+				Weight & Height\\
+				\hline
+				56-66 & 170-178\\
+				75-80 & 178-180\\
+				88-96 & 182\\
+				100-107 & 185-187\\
+				107-147 & 187-191\\
+				\hline
+		    \end{tabular}
+		\end{table}
+		\begin{table}[htpb]
+		    \centering
+		    \caption{2-anonymity}
+		    \label{tab:label}
+		    \begin{tabular}{|c | c|}
+			\hline
+		     Weight & Height\\
+			 \hline
+			 56-57 & 170-177\\
+			 66-75 & 177-180\\
+			 76-80 & 182\\
+			 88-91 & 185\\
+			 95-100 & 187-191\\
+			 102-107 &  \\
+			 135-147& \\
+			 \hline
+
+		    \end{tabular}
+		\end{table}\\
+		In 3-anonymity, picking the height 182, we can identify Flash, Green Lantern, and Wonder
+		Woman.\\
+		In 2-anonymity, picking a weight between 95 and 100 can be Batman or
+		Captain America. 
+
+\end{enumerate}
+    
+\end{exercise}
+
+\begin{exercise}
+We found the respective averages $avg_{total} = 91,14285714$ and $avg_{no-Bruce}=90,84615385$.
+We invert the formula, and do 
+\[
+	b_{total} = \sqrt{\frac{1}{2 avg_{total}}(-|x|)} = 2.6457513111060598 
+\]. 
+Removing B. Wayne from the list and comparing with the respective average, we
+get:
+\[
+	b_{no-Bruce} = \sqrt{\frac{1}{2 avg_{no-Bruce}}(-|x|)} = 2.6500682974358214 
+\].  
+Therefore $\epsilon_{total} = 0,378, \epsilon_{no-Bruce} = 0,377$, which doesn't
+tell if Bruce was considered in the calculation or not.  
+
+\end{exercise}
+
+% section solutions (end)
+
+\medskip
+
+\printbibliography
+
+\doclicenseThis
+
+\end{document}

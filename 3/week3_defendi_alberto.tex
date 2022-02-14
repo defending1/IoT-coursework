@@ -1,0 +1,214 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}                
+\setlength{\parindent}{6mm}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1.5in]{geometry}    % For margin alignment
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{pdfpages}
+\usepackage{arevmath}     % For math symbols
+\usepackage{exercises}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{source.bib}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{Alberto Defendi}
+\fancyhead[RE,LO]{IoT: week 3 solutions}
+\fancyfoot[LE,RO]{\thepage}
+
+\title{Problem solutions 3}
+\author{Alberto Defendi - alberto.defendi@helsinki.fi}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Solutions} % (fold)
+\label{sec:solutions}
+
+\begin{exercise}
+The duty cycle would be:
+\begin{table}[htpb]
+    \centering
+    \caption{Duty cycle}
+    \label{tab:label}
+    \begin{tabular}{c | c}
+		Second (s) & Action\\
+	\hline
+	0 & Measure temperature and humidity, suddently start and wake up MOX.\\
+	4 & Operate LSP.\\
+	5 & MOX and LSP are now heated. Calibrate sensors. \\
+	6 & Measure LSP and MOX, then start MOX sleeping cycle.\\
+	16 & MOX in sleep mode, end of the cycle.\\
+    \end{tabular}
+\end{table}\\
+It is important to measure temperature and humidity before MOX starts, to avoid
+the surrounding air to be heated up by that sensor, which has to reach high
+temperatures. 
+
+\end{exercise}
+
+\begin{exercise}
+
+		\begin{table*}[htpb]
+    \centering
+	\caption{Sensor classification (1)}
+    \label{tab:label}
+    \begin{tabular}{|c | c|}
+		\hline
+		Name & Category\\
+		\hline
+		Temperature (thermometer) & Passive, contact (air), non-visual,
+		exteroceptive.\\
+		\hline
+		Temperature (camera) & non-contact, proprioception, visual, active\\
+		\hline
+		Relative humidity & Passive, contact (soil), non-visual, exteroceptive.\\
+		\hline
+		Air pressure & Passive, contact (air), non-visual, exteroceptive.\\
+		\hline
+		Gas and particulate matter (IR) & non-contact, proprioception, visual, active\\
+		\hline
+    \end{tabular}
+\end{table*}
+\begin{table*}[htpb]
+    \centering
+	\caption{Sensor classification (2)}
+    \label{tab:label}
+    \begin{tabular}{|c | c|}
+		\hline
+		Name & Category\\
+		\hline
+		Infrared & Non-contact, proprioception, visual, active.\\
+		\hline
+		Sound & Exteroceptive, passive, contact (sound waves), non-visual.\\
+		\hline
+    \end{tabular}
+\end{table*}
+
+\textbf{Duty cycle}
+\begin{enumerate}
+	\item We use a photoacustic $CO$ sensor (does not require calibration),
+		a MOX sensor for  $NO_2$ and a LSP
+		sensor for the particulate matter. We have a similar duty cycle as that
+		of task 1.\\
+	\begin{table}[htpb]
+		\centering
+		\caption{Duty cycle}
+		\label{tab:label}
+		\begin{tabular}{c | c}
+			Time & Action\\
+		\hline
+		0 & Measure temperature and humidity and air pressure, then wake up MOX.\\
+		4 & Operate LSP for 1s, measure temperature, humidity and air pressure.\\
+		5 & MOX and LSP are now heated. Calibrate sensors.\\
+		5 &  Shut down
+		temperature, humidity and air pressure.\\
+		6 & Measure LSP, MOX and $CO$. \\
+		6 & Start MOX sleeping cycle and shut down LSP, $CO$ sensor.\\
+		16 & MOX, LSP in sleep mode. Check values, compute and save next wake up
+		time. \\
+		\end{tabular}
+	\end{table}\\
+		In the last step, if the values are under
+		the threshold value, the sensors are reactivated the next ten minutes
+		in this case, the cycle will last 10 minutes, plus time to warm up MOX.
+		If not, the sensors are reactivated in two minutes.  
+	\item The criticality of recording cow moves, is that we could have noisy
+	recordings due to other agents moving in the environment. For this we
+	should use the IR to detect movement, and the noise detector to check, if
+	the moved agent is the desired animal. \\
+	The passive infrared sensors are always on and located in
+	strategic locations, similarly as is done for burglar alarms. Ideally they
+	should cover all the area where the animals pass. After one IR sensor is triggered, the nearest
+	sound sensor is awaken and starts recording to establish if the desired
+	animal passed near the sensor. Between 10PM and 5AM, the device should not
+	trigger, if the IR detects another movement and the last registration
+	was recorded less than 10 minutes ago. 
+\end{enumerate}
+
+\textbf{Pipeline}
+\begin{enumerate}[(a)]
+    \item The input are the IR sensor trigger, which wakes up the sound sensor
+		that records the noise, inferences the sound by classifying it with 
+		the know data of possible sounds and
+		returns a Boolean value.
+	\item Classification, since the given data is trained on a high-end
+		computer and then we deploy the knowledge on a low-end system, which
+		matches a recording against the model. 
+	\item Various sounds of the animals can be recorded in the preceding months
+		and those could be edited at computer to introduce common atmospheric
+		agents. We can then train a model using an unsupervised network that
+		matches our recordings against known sounds of that animal. 
+	\item We could use a Bayesian network to establish a probability that the
+		sound matches the given data. Implementing a more sophisticated neural
+		network or a vector machine would be hard, due to the reduced size of
+		the device and of the difficulty to use a internet connection in a
+		forest.
+\end{enumerate}
+
+
+\end{exercise}
+
+\begin{exercise}
+Analyzing \cite{10.1145/1555816.1555834}.
+\begin{description}
+    \item[Ground data] pre-collected and classified data is used from third-party
+		sources. As reported, "SoundSense leverages the existing body of work on 
+		acoustic signal processing and classification (e.g., [24] [34] [21] [14]) 
+		and takes a systems design approach to realizing the first such system for 
+		a mobile phone".
+	\item[Metrics] First, the sound is classified and as one of the three
+		category: voice, music and ambient sound. Second, in case of voice and music,
+		the system can do a finer discrimination. Third, the agent learns in an
+		unsupervised way the ambient sound. 
+		SoundSense does not aim to identify all the sound, instead, it aims to
+		identify only the most useful sounds.
+		When SoundSens detects a new sound, it prompts the user to label this
+		sound, asking to provide a textual description.
+	\item[Improvements] 
+		\begin{description}
+			\item[Labeling] The labeling process proposed is not perfect, since 
+				the implementation is left to the OS manufacturer.
+		    \item[Microphone] as mentioned by the article, the microphone
+				recordings become inaccurate when it's obstructed, for instance
+				when the phone is in the pockets. One solution can be
+				using external microphones, such as the one of headset or of the
+				linked smart assistant. The analysis part of the article could
+				be extended when using one of these auxiliary devices. Another
+				problem is the limited microphone on smartphone, which is
+				designed for human voices and not for ambient sounds. Hopefully,
+				modern smartphone can integrate ambient microphones. 
+			\item[Potential risks] If misused or in case of data breaches from
+				the smartphone, this system could leak sensitive information. It
+				is important that it is implemented in the OS alongside
+				appropriate security features. 
+		\end{description}
+\end{description}    
+\end{exercise}
+
+% section solutions (end)
+
+\medskip
+
+\printbibliography
+
+\doclicenseThis
+
+\end{document}

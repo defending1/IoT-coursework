@@ -1,0 +1,174 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}                
+\setlength{\parindent}{6mm}
+\usepackage{amsmath,amsthm,amssymb,amsfonts, mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1.5in]{geometry}    % For margin alignment
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{pdfpages}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\usepackage{arevmath}     % For math symbols
+\usepackage{exercises}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{source.bib}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{Alberto Defendi}
+\fancyhead[RE,LO]{IoT: week 4 solutions}
+\fancyfoot[LE,RO]{\thepage}
+
+\title{Problem solutions 4}
+\author{Alberto Defendi - alberto.defendi@helsinki.fi}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Solutions} % (fold)
+\label{sec:solutions}
+\begin{exercise}
+
+\begin{algorithm}[h]
+\caption{Monitoring}\label{alg:two}
+% Set Function Names
+\SetKwFunction{FDiscovery}{Discovery}
+\SetKwProg{Fn}{Function}{:}{}
+\KwInput{knowNodesList: list of known nodes}
+\Fn{\FDiscovery{knowNodesList}}{
+	$stop = 0$\;
+	\While{$stop \neq 1$}{
+		connection = broadcastAdvertise("device-name", "message") \;
+
+		\If {$connection.replies() \neq \emptyset$} {
+			connectNodes(nearestNode.getKnownNodesList(), connectedNodesList)\;
+		}
+	}
+}
+\SetKwFunction{FKeepAlive}{KeepAlive}
+\Fn{\FKeepAlive{knownNodesList}}{
+	counter = 0\;
+	\While{counter is 5}{
+		response = HBRQ(knownNodeList)\;
+		\If{response = HBRS}{
+			counter = 0\;
+		} 
+		\Else{
+			counter = counter + 1\;
+		}
+	}
+}
+\end{algorithm}
+
+The network has to be delay tolerant, since the animals tend to move and the
+communication with the infrastructure might be postponed, if the infrastructure
+is not available.
+\end{exercise}
+
+
+\begin{exercise}
+I chose application 3 and 4.\\
+3\\
+\begin{enumerate}
+    \item 
+		\begin{itemize}
+		    \item Cellular, since the car has an onboard computer that exchanges
+				data of at least 20 MB/s for downloading the maps, and
+				the advantage of a good battery capacity. LTE, 5G or 6G may be used.
+			\item The car is connected to wireless radios and exchanges data
+				with
+				the cloud.
+			\item Wide network range since the LTE radios may be
+				distant.
+		\end{itemize}
+	\item I would use HTTPS since the data is exchanged via a cellular
+		connection. This exposes data to other users, and possible attacks such
+		as 
+		man-in-the middle.  
+	\item Data can be uploaded to the server while the car is connected to a
+		WiFi station at home. Here the car can download maps of the
+		frequently visited areas, update the police database and to push
+		sensor's data to the server, if it was not done while the app was
+		functioning.
+		This makes possible to save the limited connection rate, and save the
+		battery of the car. It can be considered to evaluate the car's condition
+		offline using the car's computer to reduce the delays with the server,
+		since the sensors re-calibration and the issues are operating in real-time.
+		This doesn't increase the production costs excessively, since the
+		on-board computer has enough computational power, if it's able to show
+		maps.
+\end{enumerate}
+4\\
+
+\begin{enumerate}
+	\begin{itemize}
+		\item For the end devices we use ZigBee, since it has a wide range, and
+			sufficient data-rate. For the gateway and the server, we use a cellular
+			connection, since the amount of data can reach a rate of some MB/s.
+	    \item Mesh network for end devices and client-server for the gateway and
+			cloud.
+		\item The range should be between 10-100m, since the sensor can be
+			located distantly.
+	\end{itemize}
+	\item Zigbee for the edge devices and HTTPS for the gateway-server.
+    \item The edges must offload data the earliest as possible, since the
+		sensor's control units are low-end devices, with power, memory, and
+		energy constraints. Consequently, we can't do any data analysis on
+		edges. Furthermore, we have the advantage that the IoT can
+		be connected to a high-speed connection with the cloud. The gateway could
+		reorganize the data, labeling it with each node name before sending it.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+
+We chose article \cite{10.1145/3191756}.
+\begin{enumerate}[(i)]
+\item BLE because the device is closer than 10m to the gateway and has low
+	power consumption.
+\item For edge-fog is a PAN, and an area of 10m suffices. The
+	smartphone-cloud are at distance of several Km.
+\item From fig. 6, W-Air consist in a sensor that
+	communicates with a smartphone using Bluetooth. The smartphone
+	exchanges data with the cloud using wireless or LAN connection. 
+	In a simplified way, the sensor collects the data from the sensors, 
+	the smartphone performs some calibrations on the data, and the cloud is
+	responsible for the data analysis.
+	This model 
+	could be viewed as a FC architecture, where the sensor is the edge, the
+	smartphone as the fog, and the server as the cloud.
+\item COAP because the device has low memory, it needs to continuously exchange the
+	measurements with a smartphone. It fits here because the sensor should
+	only report data to the smartphone in a publish/subscribe way (where the
+	smartphone is the central entity), and a connection-less protocol like
+	UDP works since loosing some measurements may not be problematic. 
+	For the smartphone and the server, HTTPS can be used with
+	request/response.
+\end{enumerate}
+\end{exercise}
+
+% section solutions (end)
+
+\medskip
+
+\printbibliography
+
+\doclicenseThis
+
+\end{document}
